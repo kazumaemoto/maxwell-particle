@@ -6,23 +6,24 @@
 #------------------------------------------------------------------------------
 def main():
 
-  # Get variance
-  variance = get_variance()
+  # Get standard deviation
+  standard_deviation = get_standard_deviation()
 
   # Get the number of particles
   number_particle = get_number_particle()
 
   # Get maximum velocity
-  maximum_velocity = get_maximum_velocity(variance)
+  maximum_velocity = get_maximum_velocity(standard_deviation)
 
   # Get random velocity
-  velocity = get_random_velocity(variance, number_particle)
+  velocity = get_random_velocity(standard_deviation, number_particle)
 
   # Get sample velocity
   sample_velocity = get_sample_velocity(maximum_velocity)
 
   # Get maxwell distribution
-  maxwell_distribution = get_maxwell_distribution(variance, sample_velocity)
+  maxwell_distribution = get_maxwell_distribution(standard_deviation, \
+                                                  sample_velocity)
 
   # Plot velocity distribution
   plot_velocity_distribution(velocity, \
@@ -32,9 +33,9 @@ def main():
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
-# Get coefficient
+# Get standard deviation
 #------------------------------------------------------------------------------
-def get_variance():
+def get_standard_deviation():
 
   # Import
   from numpy import sqrt
@@ -76,17 +77,17 @@ def get_variance():
     else:
       print('Invalid.')
 
-  # Get variance
-  variance = sqrt(elementary_charge * temperature / mass)
+  # Get standard_deviation
+  standard_deviation = sqrt(elementary_charge * temperature / mass)
 
   # Return
-  return variance
+  return standard_deviation
 #------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
 # Get maxwell distribution
 #------------------------------------------------------------------------------
-def get_maxwell_distribution(variance, sample_velocity):
+def get_maxwell_distribution(standard_deviation, sample_velocity):
 
   # Import
   from scipy.stats import norm
@@ -95,7 +96,7 @@ def get_maxwell_distribution(variance, sample_velocity):
   average = 0.0
 
   # Get maxwell distribution
-  maxwell_distribution = norm.pdf(sample_velocity, average, variance)
+  maxwell_distribution = norm.pdf(sample_velocity, average, standard_deviation)
 
   # Return
   return maxwell_distribution
@@ -104,10 +105,10 @@ def get_maxwell_distribution(variance, sample_velocity):
 #------------------------------------------------------------------------------
 # Get maximum velocity
 #------------------------------------------------------------------------------
-def get_maximum_velocity(variance):
+def get_maximum_velocity(standard_deviation):
 
-  # Set maximum velocity as three times of variance
-  maximum_velocity = 3.0 * variance
+  # Set maximum velocity as three times of standard_deviation
+  maximum_velocity = 3.0 * standard_deviation
 
   # Return
   return maximum_velocity
@@ -139,7 +140,7 @@ def get_number_particle():
 #------------------------------------------------------------------------------
 # Get random velocity
 #------------------------------------------------------------------------------
-def get_random_velocity(variance, number_particle):
+def get_random_velocity(standard_deviation, number_particle):
 
   # Import
   from numpy import cos, log, sqrt
@@ -151,7 +152,7 @@ def get_random_velocity(variance, number_particle):
 
   for counter in range(number_particle):
     # Get random velocity
-    velocity.append(sqrt(- 2.0 * variance ** 2 * log(random())) \
+    velocity.append(sqrt(- 2.0 * standard_deviation ** 2 * log(random())) \
                   * cos(2.0 * pi * random()))
 
   # Return
